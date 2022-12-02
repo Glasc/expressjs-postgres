@@ -13,9 +13,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw({ type: "application/vnd.custom-type" }));
 app.use(bodyParser.text({ type: "text/html" }));
 
+app.get("/bicicletas", async (req, res) => {
+  const { rows } = await pool.query("SELECT * FROM bicicletas");
+
+  res.send(rows);
+});
+
+app.get("/cascos", async (req, res) => {
+  const { rows } = await pool.query("SELECT * FROM cascos");
+
+  res.json(rows);
+});
+
 app.get("/", async (req, res) => {
-  const { rows } = await pool.query("SELECT NOW()");
-  res.send(`Hello, World! The time from the DB is ${rows[0].now}`);
+  res.send("hello");
 });
 
 app.listen(port, () => {
